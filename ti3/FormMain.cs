@@ -17,7 +17,8 @@ namespace ti3
             InitializeComponent();
         }
 
-        private static byte[] save = new byte[10000];
+        private static List<byte> save = new List<byte>();
+
         private void bt_do_Click(object sender, EventArgs e)
         {
             if (cb_Algorithm.SelectedIndex == 0)
@@ -40,23 +41,24 @@ namespace ti3
 
                 byte[] incomingBytes = Encoding.Default.GetBytes(rtb_message.Text);
                 byte[] resultBytes = new byte[incomingBytes.Length];
+                
 
                 for (int i = 0; i < incomingBytes.Length; ++i)
                 {
                     if (cb_EncrDecr.SelectedIndex == 0)
+                    {
+                        if ((i == 0) && save != null)
+                            save.Clear();
                         resultBytes[i] = rotor.EncryptByte(incomingBytes[i]);
+                        save.Add(resultBytes[i]);
+                    }
                     else
                         resultBytes[i] = rotor.DecryptByte(save[i]);
                 }
 
-                if (cb_EncrDecr.SelectedIndex == 0)
-                {
-                    for (int i = 0; i < resultBytes.Length; ++i)
-                        save[i] = resultBytes[i];
-                }
-                    string str = Encoding.Default.GetString(resultBytes);
-                    for (int i = 0; i < str.Length; ++i)
-                        rtb_cipher.Text += str[i];
+                string str = Encoding.Default.GetString(resultBytes);
+                for (int i = 0; i < str.Length; ++i)
+                    rtb_cipher.Text += str[i];
             }
         }
 

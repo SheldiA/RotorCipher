@@ -44,6 +44,7 @@
             // 
             this.rtb_message.Location = new System.Drawing.Point(24, 149);
             this.rtb_message.Name = "rtb_message";
+            this.rtb_message.ReadOnly = true;
             this.rtb_message.Size = new System.Drawing.Size(170, 203);
             this.rtb_message.TabIndex = 0;
             this.rtb_message.Text = "";
@@ -52,6 +53,7 @@
             // 
             this.rtb_cipher.Location = new System.Drawing.Point(327, 149);
             this.rtb_cipher.Name = "rtb_cipher";
+            this.rtb_cipher.ReadOnly = true;
             this.rtb_cipher.Size = new System.Drawing.Size(170, 203);
             this.rtb_cipher.TabIndex = 1;
             this.rtb_cipher.Text = "";
