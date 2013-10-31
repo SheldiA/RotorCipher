@@ -17,28 +17,43 @@ namespace ti3
             InitializeComponent();
         }
 
+        private static byte[] save = new byte[10000];
         private void bt_do_Click(object sender, EventArgs e)
         {
             if (cb_Algorithm.SelectedIndex == 0)
             {
-                Enigma enigma = new Enigma();
+                Enigma.languages language;
+                if ((rtb_message.Text[0] >= 1040) && (rtb_message.Text[0] <= 1103))
+                    language = Enigma.languages.russian;
+                else
+                    language = Enigma.languages.english;
+
+                Enigma enigma = new Enigma(GetBytePassword(tb_key.Text),language);
                 rtb_cipher.Text = "";
                 for (int i = 0; i < rtb_message.Text.Length; ++i)
                     rtb_cipher.Text += enigma.Encrypt(rtb_message.Text[i]);
             }
             else
             {
-                lfsrRotor rotor = new lfsrRotor(GetBinaryPassword(tb_key.Text));
+                lfsrRotor rotor = new lfsrRotor(GetBinaryPassword(tb_key.Text), GetBytePassword(tb_key.Text));
                 rtb_cipher.Text = "";
+
                 byte[] incomingBytes = Encoding.Default.GetBytes(rtb_message.Text);
                 byte[] resultBytes = new byte[incomingBytes.Length];
+
                 for (int i = 0; i < incomingBytes.Length; ++i)
-                    if(cb_EncrDecr.SelectedIndex == 0)
+                {
+                    if (cb_EncrDecr.SelectedIndex == 0)
                         resultBytes[i] = rotor.EncryptByte(incomingBytes[i]);
                     else
-                        resultBytes[i] = rotor.DecryptByte(incomingBytes[i]);
+                        resultBytes[i] = rotor.DecryptByte(save[i]);
+                }
 
-                
+                if (cb_EncrDecr.SelectedIndex == 0)
+                {
+                    for (int i = 0; i < resultBytes.Length; ++i)
+                        save[i] = resultBytes[i];
+                }
                     string str = Encoding.Default.GetString(resultBytes);
                     for (int i = 0; i < str.Length; ++i)
                         rtb_cipher.Text += str[i];
@@ -56,8 +71,9 @@ namespace ti3
 
         private byte[] GetBytePassword(string initial_string)
         {
-            MD5 md5hash = MD5.Create();
-            byte[] data = md5hash.ComputeHash(Encoding.UTF8.GetBytes(initial_string));
+            //MD5 md5hash = MD5.Create();
+            SHA512 sha512 = new SHA512Managed();
+            byte[] data = sha512.ComputeHash(Encoding.UTF8.GetBytes(initial_string));
             return data;
         }
 
@@ -65,6 +81,7 @@ namespace ti3
         {
             rtb_message.Text = rtb_cipher.Text;
             rtb_cipher.Text = "";
+            
         }
 
         private void FormMain_Load(object sender, EventArgs e)
