@@ -1,0 +1,8 @@
+D:\Project c#\ti3\ti3\bin\Debug\ti3.exe
+D:\Project c#\ti3\ti3\bin\Debug\ti3.pdb
+D:\Project c#\ti3\ti3\obj\x86\Debug\ti3.FormMain.resources
+D:\Project c#\ti3\ti3\obj\x86\Debug\ti3.Properties.Resources.resources
+D:\Project c#\ti3\ti3\obj\x86\Debug\ti3.csproj.GenerateResource.Cache
+D:\Project c#\ti3\ti3\obj\x86\Debug\ti3.exe
+D:\Project c#\ti3\ti3\obj\x86\Debug\ti3.pdb
+D:\Project c#\ti3\ti3\obj\x86\Debug\ti3.csprojResolveAssemblyReference.cache
